@@ -95,7 +95,7 @@ public class TodoControllerSpec {
     }
 
     @Test
-    public void getCompleteTodos() {
+    public void getCompletedTodos() {
         Map<String, String[]> argMap = new HashMap<>();
 
         // add assertions and arguments for argMap
@@ -104,11 +104,37 @@ public class TodoControllerSpec {
     @Test
     public void addTodoTest() {
         // add body of method
+        String newID = todoController.addNewTodo("Brian", "hello",
+            false, "video games");
+
+        assertNotNull("Add new todo should return an object when todo is added", newID);
+        Map<String, String[]> argMap = new HashMap<>();
+        argMap.put("status", new String[] { "false" });
+        String jsonResult = todoController.getTodos(argMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+        List<String> owner = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        assertEquals("Should return owner of new user", "Brian", owner.get(0));
+
     }
 
     @Test
     public void getTodoByCategory() {
         Map<String, String[]> argMap = new HashMap<>();
         // add body of method
+        argMap.put("category", new String[] { "[I,F]" });
+        String jsonResult = todoController.getTodos(argMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+        assertEquals("Should be 3 users", 3, docs.size());
+        List<String> owner = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedOwner = Arrays.asList("Chris", "Richard Nixon", "James Bond");
+        assertEquals("Owners should match", expectedOwner, owner);
     }
 }
