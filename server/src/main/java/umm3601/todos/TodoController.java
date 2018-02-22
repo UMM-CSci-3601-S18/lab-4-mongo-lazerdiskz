@@ -18,11 +18,11 @@ public class TodoController {
         return null;
     }
 
-    public boolean addNewTodo(String owner,
+    public String addNewTodo(String owner,
                              String body,
                              boolean status,
                              String category) {
-        return false;
+        return null;
     }
 
 }

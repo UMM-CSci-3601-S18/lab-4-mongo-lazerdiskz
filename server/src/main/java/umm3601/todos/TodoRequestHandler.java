@@ -18,7 +18,7 @@ public class TodoRequestHandler {
         return null;
     }
 
-    public boolean addNewTodo(Request req, Response res){
-        return false;
+    public String addNewTodo(Request req, Response res){
+        return null;
     }
 }
