@@ -2,7 +2,6 @@ package umm3601.user;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
-import org.bson.types.ObjectId;
 import spark.Request;
 import spark.Response;
 
@@ -89,7 +88,7 @@ public class UserRequestHandler {
                     String email = dbO.getString("email");
 
                     System.err.println("Adding new user [name=" + name + ", age=" + age + " company=" + company + " email=" + email + ']');
-                    return userController.addNewUser(name, age, company, email).toString();
+                    return userController.addNewUser(name, age, company, email);
                 }
                 catch(NullPointerException e)
                 {
