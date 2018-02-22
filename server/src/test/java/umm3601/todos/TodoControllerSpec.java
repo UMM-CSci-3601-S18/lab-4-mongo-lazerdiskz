@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +31,27 @@ public class TodoControllerSpec {
         List<Document> testTodos = new ArrayList<>();
 
         // add insertions of todos
+        testTodos.add(Document.parse("{\n" +
+            "                    owner: \"Chris\",\n" +
+            "                    status: false,\n" +
+            "                    category: \"UMM\",\n" +
+            "                    body: \"Chris is a happy person with no issues\"\n" +
+            "                }"));
 
+        testTodos.add(Document.parse("{\n" +
+            "                    owner: \"Richard Nixon\",\n" +
+            "                    status: false,\n" +
+            "                    category: \"chores\",\n" +
+            "                    body: \"Watergate\"\n" +
+            "                }"));
+        testTodos.add(Document.parse("{\n" +
+            "                    owner: \"James Bond\", \n" +
+            "                    status: false,\n" +
+            "                    category: \"violence\",\n" +
+            "                    body: \"Appear in a violent action movie\"" +
+            "                   }"));
+
+        todoDocuments.insertMany(testTodos);
         // this needs to be below the rest of the before method.
         todoController = new TodoController(db);
     }
@@ -60,6 +81,17 @@ public class TodoControllerSpec {
         BsonArray docs = parseJsonArray(jsonResult);
 
         // add test assertions
+        assertEquals("should be 3 todos", 3, docs.size());
+        List<String> owners = docs
+            .stream()
+            .map(TodoControllerSpec::getOwner)
+            .sorted()
+            .collect(Collectors.toList());
+        List<String> expectedOwners = Arrays.asList("Chris",
+            "Richard Nixon",
+            "James Bond");
+
+        assertEquals("Names should match", expectedOwners, owners);
     }
 
     @Test
