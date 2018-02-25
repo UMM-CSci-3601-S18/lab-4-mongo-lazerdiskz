@@ -7,17 +7,17 @@ import {Todo} from './todo';
     styleUrls: ['./todo.component.css'],
     templateUrl: 'todo.component.html'
 })
-export class UserComponent implements OnInit {
+export class TodoComponent implements OnInit {
     public todo: Todo = null;
     private id: string;
 
-    constructor(private userListService: TodoListService) {
-        // this.users = this.userListService.getUsers();
+    constructor(private todoListService: TodoListService) {
+        // this.todos = this.todoListService.getTodos();
     }
 
     private subscribeToServiceForId() {
         if (this.id) {
-            this.userListService.getUserById(this.id).subscribe(
+            this.todoListService.getTodoById(this.id).subscribe(
                 todo => this.todo = todo,
                 err => {
                     console.log(err);
