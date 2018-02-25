@@ -97,8 +97,10 @@ public class TodoControllerSpec {
     @Test
     public void getCompletedTodos() {
         Map<String, String[]> argMap = new HashMap<>();
-
-        // add assertions and arguments for argMap
+        argMap.put("status", new String[]{"true"});
+        String jsonResult = todoController.getTodos(argMap);
+        BsonArray docs = parseJsonArray(jsonResult);
+        assertEquals("Should be _ todos", 0, docs.size());
     }
 
     @Test
@@ -117,7 +119,7 @@ public class TodoControllerSpec {
             .map(TodoControllerSpec::getOwner)
             .sorted()
             .collect(Collectors.toList());
-        assertEquals("Should return owner of new user", "Brian", owner.get(0));
+        assertEquals("Should return owner of new todo", "Brian", owner.get(0));
 
     }
 
