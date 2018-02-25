@@ -15,8 +15,8 @@ export class TodoListService {
     constructor(private http: HttpClient) {
     }
 
-    getUsers(userCompany?: string): Observable<Todo[]> {
-        this.filterByCategory(userCompany);
+    getUsers(todoCategory?: string): Observable<Todo[]> {
+        this.filterByCategory(todoCategory);
         return this.http.get<Todo[]>(this.todoUrl);
     }
 
@@ -24,33 +24,23 @@ export class TodoListService {
         return this.http.get<Todo>(this.todoUrl + '/' + id);
     }
 
-    /*
-    //This method looks lovely and is more compact, but it does not clear previous searches appropriately.
-    //It might be worth updating it, but it is currently commented out since it is not used (to make that clear)
-    getUsersByCompany(userCompany?: string): Observable<User> {
-        this.todoUrl = this.todoUrl + (!(userCompany == null || userCompany == "") ? "?company=" + userCompany : "");
-        console.log("The url is: " + this.todoUrl);
-        return this.http.request(this.todoUrl).map(res => res.json());
-    }
-    */
-
-    filterByCategory(userCompany?: string): void {
-        if (!(userCompany == null || userCompany === '')) {
-            if (this.parameterPresent('company=') ) {
-                // there was a previous search by company that we need to clear
-                this.removeParameter('company=');
+    filterByCategory(todoCategory?: string): void {
+        if (!(todoCategory == null || todoCategory === '')) {
+            if (this.parameterPresent('category=') ) {
+                // there was a previous search by category that we need to clear
+                this.removeParameter('category=');
             }
             if (this.todoUrl.indexOf('?') !== -1) {
                 // there was already some information passed in this url
-                this.todoUrl += 'company=' + userCompany + '&';
+                this.todoUrl += 'category=' + todoCategory + '&';
             } else {
                 // this was the first bit of information to pass in the url
-                this.todoUrl += '?company=' + userCompany + '&';
+                this.todoUrl += '?category=' + todoCategory + '&';
             }
         } else {
             // there was nothing in the box to put onto the URL... reset
-            if (this.parameterPresent('company=')) {
-                let start = this.todoUrl.indexOf('company=');
+            if (this.parameterPresent('category=')) {
+                let start = this.todoUrl.indexOf('category=');
                 const end = this.todoUrl.indexOf('&', start);
                 if (this.todoUrl.substring(start - 1, start) === '?') {
                     start = start - 1;
@@ -76,7 +66,7 @@ export class TodoListService {
         this.todoUrl = this.todoUrl.substring(0, start) + this.todoUrl.substring(end);
     }
 
-    addNewUser(newTodo: Todo): Observable<{'$oid': string}> {
+    addNewTodo(newTodo: Todo): Observable<{'$oid': string}> {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json'
