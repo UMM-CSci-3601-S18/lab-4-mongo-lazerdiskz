@@ -9,7 +9,7 @@ describe('Todo component', () => {
     let todoComponent: TodoComponent;
     let fixture: ComponentFixture<TodoComponent>;
 
- /*
+
  // need to update these fields for the tests a
  // and add more tests
 
@@ -25,22 +25,22 @@ describe('Todo component', () => {
                     _id: 'chris_id',
                     owner: 'Chris',
                     status: false,
-                    category: 'UMM',
-                    body: 'chris@this.that'
+                    category: 'groceries',
+                    body: 'ramen'
                 },
                 {
-                    _id: 'chris_id',
-                    owner: 'Chris',
-                    status: false,
-                    category: 'UMM',
-                    body: 'chris@this.that'
+                    _id: 'george_id',
+                    owner: 'George',
+                    status: true,
+                    category: 'video games',
+                    body: 'play 9001 hours of Dragonball Fighter Z'
                 },
                 {
-                    _id: 'chris_id',
-                    owner: 'Chris',
+                    _id: 'leah_id',
+                    owner: 'Leah',
                     status: false,
-                    category: 'UMM',
-                    body: 'chris@this.that'
+                    category: 'groceries',
+                    body: 'fuji apples, caramel sauce'
                 }
             ].find(todo => todo._id === todoId))
         };
@@ -58,18 +58,25 @@ describe('Todo component', () => {
         });
     }));
 
-    it('can retrieve Pat by ID', () => {
-        todoComponent.setId('pat_id');
+
+    it('can retrieve George by ID', () => {
+        todoComponent.setId('george_id');
         expect(todoComponent.todo).toBeDefined();
-        expect(todoComponent.todo.owner).toBe('Pat');
-        expect(todoComponent.todo.body).toBe('pat@something.com');
+        expect(todoComponent.todo.owner).toBe('George');
+        expect(todoComponent.todo.body).toBe('play 9001 hours of Dragonball Fighter Z');
+    });
+
+    it('can retrieve Leah by ID', () => {
+       todoComponent.setId('leah_id');
+       expect(todoComponent.todo).toBeDefined();
+       expect(todoComponent.todo.owner).toBe('Leah');
+       expect(todoComponent.todo.status).toBe(false);
     });
 
     it('returns undefined for Santa', () => {
-        todoComponent.setId('Santa');
+        todoComponent.setId('santa_id');
         expect(todoComponent.todo).not.toBeDefined();
     });
 
-    */
 
 });
