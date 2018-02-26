@@ -12,29 +12,29 @@
             <mat-divider></mat-divider>
             <mat-card-content>
                 <mat-form-field>
-                    <input matInput id="todoOwner" #input type="text" placeholder="Filter by owner" (input)="todoOwner = $event.target.value">
+                    <input matInput id="todoOwner" #input type="text" placeholder="Filter by owner" (input)="searchTodoOwner = $event.target.value">
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput id="todoCategory" #input type="search" placeholder="Search for a category" [(ngModel)]="todoCategory" />
-                    <button mat-button id="categoryClearSearch" type="button" *ngIf="todoCategory" matSuffix mat-icon-button aria-label="clear" (click)="todoCategory='';loadService()">
+                    <input matInput id="todoCategory" #input type="search" placeholder="Search for a category" [(ngModel)]="searchTodoCategory" />
+                    <button mat-button id="categoryClearSearch" type="button" *ngIf="searchTodoCategory" matSuffix mat-icon-button aria-label="clear" (click)="searchTodoCategory='';loadService()">
                         <mat-icon>close</mat-icon>
                     </button>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput id="todoBody" #input type="text" placeholder="Filter by body" (input)="todoBody = $event.target.value">
+                    <input matInput id="todoBody" #input type="text" placeholder="Filter by body" (input)="searchTodoBody = $event.target.value">
                 </mat-form-field>
 
                 <!--we need to fix this as this is a boolean. it shouldnt be working right-->
                 <mat-form-field>
-                    <input matInput id="todoStatus" #input type="boolean" placeholder="Filter by status" (input)="todoStatus = $event.target.value">
+                    <input matInput id="todoStatus" #input type="boolean" placeholder="Filter by status" (input)="searchTodoStatus = $event.target.value">
                 </mat-form-field>
 
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
-                    <mat-expansion-panel #elem class="todos" [id]="todo.body" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(todoOwner, todoStatus)">
+                    <mat-expansion-panel #elem class="todos" [id]="todo.body" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(searchTodoOwner, searchTodoStatus)">
                         <mat-expansion-panel-header>
                             <mat-panel-title matTooltip="body: {{todo.body}}" >{{todo.owner}}</mat-panel-title>
 
