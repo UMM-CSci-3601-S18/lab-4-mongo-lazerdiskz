@@ -68,7 +68,6 @@ public class TodoController {
             ObjectId id = newTodo.getObjectId("_id");
             System.err.println("Successfully added new user [_id=" + id + ", owner=" + owner + ", status=" + status
                 + " body=" + body + " category=" + category + ']');
-            // return JSON.serialize(newUser);
             return JSON.serialize(id);
         } catch(MongoException me) {
             me.printStackTrace();
