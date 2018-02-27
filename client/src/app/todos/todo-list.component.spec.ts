@@ -61,6 +61,6 @@ describe('Todo list', () => {
     });
 
     it("contains one todo that is complete", () => {
-        expect(todoList.filterTodos(null, null, null, true)).toBe(1);
+        expect((todoList.filterTodos(null, null, null, true)).length === 1);
         });
 });

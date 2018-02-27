@@ -56,8 +56,39 @@ export class TodoListComponent implements OnInit {
         });
     }
 
-    public filterTodos(searchOwner: string, searchCategory: string, searchBody: string, searchStatus: boolean) {
+    public filterTodos(searchOwner: string, searchCategory: string, searchBody: string, searchStatus: boolean): Todo[] {
         this.filteredTodos = this.todos;
+
+        if (searchCategory != null) {
+            searchCategory = searchCategory.toLocaleLowerCase();
+
+            this.filteredTodos = this.filteredTodos.filter(todo => {
+                return !searchCategory || todo.category.toLowerCase().indexOf(searchCategory) !== -1;
+            });
+        }
+
+        if(searchBody != null) {
+            searchBody = searchBody.toLocaleLowerCase();
+
+            this.filteredTodos = this.filteredTodos.filter(todo => {
+                return !searchBody || todo.body.toLocaleLowerCase().indexOf(searchBody);
+            });
+        }
+
+        if(searchStatus != null) {
+            let status: string;
+            if(searchStatus) {
+                status = "true";
+            }
+            else {
+                status = "false";
+            }
+            this.filteredTodos = this.filteredTodos.filter(todo => {
+                return !searchStatus || searchStatus;
+            })
+        }
+
+        return this.filteredTodos;
     }
 
     refreshTodos(): Observable<Todo[]> {
