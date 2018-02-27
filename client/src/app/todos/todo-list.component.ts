@@ -115,7 +115,7 @@ export class TodoListComponent implements OnInit {
 
 
     loadService(): void {
-        this.todoListService.getTodos(this.searchTodoCategory).subscribe(
+        this.todoListService.getTodos(this.searchTodoOwner).subscribe(
             todos => {
                 this.todos = todos;
                 this.filteredTodos = this.todos;
