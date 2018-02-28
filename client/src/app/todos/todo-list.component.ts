@@ -39,7 +39,7 @@ export class TodoListComponent implements OnInit {
         const newTodo: Todo = {_id: '', owner: '', status: false, body: '', category: ''};
         const dialogRef = this.dialog.open(AddTodoComponent, {
             width: '500px',
-            data: { user: newTodo }
+            data: { todo: newTodo }
         });
 
         dialogRef.afterClosed().subscribe(result => {

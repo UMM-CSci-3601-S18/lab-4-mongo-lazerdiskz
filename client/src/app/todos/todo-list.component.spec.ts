@@ -35,6 +35,13 @@ describe('Todo list', () => {
                     status: false,
                     category: "groceries",
                     body: "Get ingredients for a stir-fry."
+                },
+                {
+                    _id: "nic_id",
+                    owner: "Nic",
+                    status: false,
+                    category: "video games",
+                    body: "He's got a body. Sure does."
                 }
             ])
         };
@@ -57,10 +64,22 @@ describe('Todo list', () => {
     }));
 
     it("contains all the todos", () => {
-        expect(todoList.todos.length).toBe(2);
+        expect(todoList.todos.length).toBe(3);
+    });
+
+    it("contains two incomplete todos", () => {
+        expect(todoList.filterTodos(null, null, null, "false").length === 2);
+    });
+
+    it("contains two todos with body fields with the word 'body' in them.", () => {
+        expect(todoList.filterTodos(null, null, "body", null).length === 2);
+    });
+
+    it("contains a todo with the category 'groceries' in it", () => {
+       expect(todoList.filterTodos(null, "groceries", null, null).length === 1);
     });
 
     it("contains one todo that is complete", () => {
-        expect((todoList.filterTodos(null, null, null, true)).length === 1);
+        expect((todoList.filterTodos(null, null, null, "false")).length === 1);
         });
 });
