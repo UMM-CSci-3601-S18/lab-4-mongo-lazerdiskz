@@ -23,23 +23,25 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput id="todoBody" #input type="text" placeholder="Filter by body" (input)="searchTodoBody = $event.target.value">
+                    <input matInput id="todoBody" #input type="search" placeholder="Filter by body" (input)="searchTodoBody = $event.target.value">
                 </mat-form-field>
 
                 <!--we need to fix this as this is a boolean. it shouldnt be working right-->
                 <mat-form-field>
-                    <input matInput id="todoStatus" #input type="boolean" placeholder="Filter by status" (input)="searchTodoStatus = $event.target.value">
+                    <input matInput id="todoStatus" #input type="search" placeholder="Filter by status" (input)="searchTodoStatus = $event.target.value">
                 </mat-form-field>
 
                 <button mat-raised-button id="submit" color="primary" #input type="button" (click)="loadService()">Submit</button>
 
                 <mat-accordion *ngIf="todos; else todosError" >
-                    <mat-expansion-panel #elem class="todos" [id]="todo.body" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(searchTodoOwner, searchTodoStatus)">
+                    <mat-expansion-panel #elem class="todos" [id]="todo.body" [expanded]="this.isHighlighted(todo)" *ngFor="let todo of this.filterTodos(searchTodoOwner, searchTodoCategory, searchTodoBody, searchTodoStatus)">
                         <mat-expansion-panel-header>
                             <mat-panel-title matTooltip="body: {{todo.body}}" >{{todo.owner}}</mat-panel-title>
 
                         </mat-expansion-panel-header>
+                        <mat-panel-description >Todo owner is: {{todo.owner}}</mat-panel-description>
                         <mat-panel-description >Todo category is: {{todo.category}}</mat-panel-description>
+                        <mat-panel-description >Todo body is: {{todo.body}}</mat-panel-description>
                         <mat-panel-description>Status: {{todo.status}}</mat-panel-description>
                     </mat-expansion-panel>
                 </mat-accordion>

@@ -21,7 +21,7 @@ export class TodoListComponent implements OnInit {
     // We should rename them to make that clearer.
     public searchTodoID: string;
     public searchTodoOwner: string;
-    public searchTodoStatus: boolean;
+    public searchTodoStatus: string;
     public searchTodoCategory: string;
     public searchTodoBody: string;
 
@@ -56,7 +56,7 @@ export class TodoListComponent implements OnInit {
         });
     }
 
-    public filterTodos(searchOwner: string, searchCategory: string, searchBody: string, searchStatus: boolean): Todo[] {
+    public filterTodos(searchOwner: string, searchCategory: string, searchBody: string, searchStatus: string): Todo[] {
         this.filteredTodos = this.todos;
 
         if (searchCategory != null) {
@@ -71,21 +71,28 @@ export class TodoListComponent implements OnInit {
             searchBody = searchBody.toLocaleLowerCase();
 
             this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchBody || todo.body.toLocaleLowerCase().indexOf(searchBody);
+                return !searchBody || todo.body.toLowerCase().indexOf(searchBody) !== -1;
             });
         }
 
-        if(searchStatus != null) {
-            let status: string;
-            if(searchStatus) {
-                status = "true";
+        // Filter by status
+        if (searchStatus != null) {
+
+            let theStatus: boolean;
+
+            if (searchStatus === "complete") {
+                theStatus = true;
+
+            } else if (searchStatus === "incomplete") {
+                theStatus = false;
+
+            } else {
+                return this.filteredTodos;
             }
-            else {
-                status = "false";
-            }
+
             this.filteredTodos = this.filteredTodos.filter(todo => {
-                return !searchStatus || searchStatus;
-            })
+                return !searchStatus || todo.status === Boolean(theStatus);
+            });
         }
 
         return this.filteredTodos;
