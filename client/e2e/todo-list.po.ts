@@ -1,9 +1,9 @@
 import {browser, element, by, promise, ElementFinder} from 'protractor';
 import {Key} from 'selenium-webdriver';
 
-export class UserPage {
+export class TodoPage {
     navigateTo(): promise.Promise<any> {
-        return browser.get('/users');
+        return browser.get('/todos');
     }
 
     // http://www.assertselenium.com/protractor/highlight-elements-during-your-protractor-test-run/
@@ -20,17 +20,17 @@ export class UserPage {
         return browser.executeScript(setStyle, element(byObject).getWebElement(), 'color: red; background-color: yellow;');
     }
 
-    getUserTitle() {
-        const title = element(by.id('user-list-title')).getText();
-        this.highlightElement(by.id('user-list-title'));
+    getTodoTitle() {
+        const title = element(by.id('todo-list-title')).getText();
+        this.highlightElement(by.id('todo-list-title'));
 
         return title;
     }
 
-    typeAName(name: string) {
-        const input = element(by.id('userName'));
+    typeAnOwner(owner: string) {
+        const input = element(by.id('todoOwner'));
         input.click();
-        input.sendKeys(name);
+        input.sendKeys(owner);
     }
 
     selectUpKey() {
@@ -41,44 +41,43 @@ export class UserPage {
         browser.actions().sendKeys(Key.BACK_SPACE).perform();
     }
 
-    getCompany(company: string) {
-        const input = element(by.id('userCompany'));
+    getCategory(category: string) {
+        const input = element(by.id('todoCategory'));
         input.click();
-        input.sendKeys(company);
+        input.sendKeys(category);
         const selectButton = element(by.id('submit'));
         selectButton.click();
     }
 
-    getUserByAge() {
-        const input = element(by.id('userName'));
+    typeABody(body: string) {
+        const input = element(by.id('todoBody'));
         input.click();
-        input.sendKeys(Key.TAB);
+        input.sendKeys(body);
     }
 
-    getUniqueUser(email: string) {
-        const user = element(by.id(email)).getText();
-        this.highlightElement(by.id(email));
-
-        return user;
+    getUniqueTodo(body: string) {
+        const todo = element(by.id(body)).getText();
+        this.highlightElement(by.id(body));
+        return todo;
     }
 
-    getUsers() {
-        return element.all(by.className('users'));
+    getTodos() {
+        return element.all(by.className('todos'));
     }
 
-    clickClearCompanySearch() {
-        const input = element(by.id('companyClearSearch'));
+    clickClearCategorySearch() {
+        const input = element(by.id('categoryClearSearch'));
         input.click();
     }
 
     buttonExists(): promise.Promise<boolean> {
-        this.highlightElement(by.id('addNewUser'));
-        return element(by.id('addNewUser')).isPresent();
+        this.highlightElement(by.id('addNewTodo'));
+        return element(by.id('addNewTodo')).isPresent();
     }
 
-    clickAddUserButton(): promise.Promise<void> {
-        this.highlightElement(by.id('addNewUser'));
-        return element(by.id('addNewUser')).click();
+    clickAddTodoButton(): promise.Promise<void> {
+        this.highlightElement(by.id('addNewTodo'));
+        return element(by.id('addNewTodo')).click();
     }
 
 }
