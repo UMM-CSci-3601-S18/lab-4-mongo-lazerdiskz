@@ -63,10 +63,14 @@ public class TodoController {
                              boolean status,
                              String category) {
         Document newTodo = new Document();
+        newTodo.append("owner", owner);
+        newTodo.append("body", body);
+        newTodo.append("status", status);
+        newTodo.append("category", category);
         try {
             todoCollection.insertOne(newTodo);
             ObjectId id = newTodo.getObjectId("_id");
-            System.err.println("Successfully added new user [_id=" + id + ", owner=" + owner + ", status=" + status
+            System.err.println("Successfully added new todo [_id=" + id + ", owner=" + owner + ", status=" + status
                 + " body=" + body + " category=" + category + ']');
             return JSON.serialize(id);
         } catch(MongoException me) {
