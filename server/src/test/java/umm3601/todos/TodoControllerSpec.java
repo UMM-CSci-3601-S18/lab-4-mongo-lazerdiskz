@@ -51,6 +51,8 @@ public class TodoControllerSpec {
             "                    body: \"Appear in a violent action movie\"" +
             "                   }"));
 
+
+
         todoDocuments.insertMany(testTodos);
         // this needs to be below the rest of the before method.
         todoController = new TodoController(db);
@@ -88,19 +90,20 @@ public class TodoControllerSpec {
             .sorted()
             .collect(Collectors.toList());
         List<String> expectedOwners = Arrays.asList("Chris",
-            "Richard Nixon",
-            "James Bond");
+            "James Bond",
+            "Richard Nixon"
+            );
 
         assertEquals("Names should match", expectedOwners, owners);
     }
 
     @Test
-    public void getCompletedTodos() {
+    public void getTodosByOwner() {
         Map<String, String[]> argMap = new HashMap<>();
-        argMap.put("status", new String[]{"true"});
+        argMap.put("owner", new String[]{"Chris"});
         String jsonResult = todoController.getTodos(argMap);
         BsonArray docs = parseJsonArray(jsonResult);
-        assertEquals("Should be _ todos", 0, docs.size());
+        assertEquals("Should be 1 todo", 1, docs.size());
     }
 
     @Test
@@ -109,9 +112,10 @@ public class TodoControllerSpec {
         String newID = todoController.addNewTodo("Brian", "hello",
             false, "video games");
 
+
         assertNotNull("Add new todo should return an object when todo is added", newID);
         Map<String, String[]> argMap = new HashMap<>();
-        argMap.put("status", new String[] { "false" });
+        argMap.put("category", new String[]{"video games"});
         String jsonResult = todoController.getTodos(argMap);
         BsonArray docs = parseJsonArray(jsonResult);
         List<String> owner = docs
@@ -123,20 +127,21 @@ public class TodoControllerSpec {
 
     }
 
-    @Test
+    // We're not filtering by category server-side
+    /*@Test
     public void getTodoByCategory() {
         Map<String, String[]> argMap = new HashMap<>();
         // add body of method
         argMap.put("category", new String[] { "[I,F]" });
         String jsonResult = todoController.getTodos(argMap);
         BsonArray docs = parseJsonArray(jsonResult);
-        assertEquals("Should be 3 users", 3, docs.size());
+        assertEquals("Should be 3 todos", 3, docs.size());
         List<String> owner = docs
             .stream()
             .map(TodoControllerSpec::getOwner)
             .sorted()
             .collect(Collectors.toList());
-        List<String> expectedOwner = Arrays.asList("Chris", "Richard Nixon", "James Bond");
+        List<String> expectedOwner = Arrays.asList("Chris", "James Bond", "Richard Nixon");
         assertEquals("Owners should match", expectedOwner, owner);
-    }
+    }*/
 }
